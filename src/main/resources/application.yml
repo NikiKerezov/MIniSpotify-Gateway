@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: gateway
+  cache:
+    type: redis
+  data:
+    redis:
+      host: localhost
+      port: 6380
+      password: alicepassword
+      username: alice
+artist:
+  service:
+    url: http://localhost:8081
+
+song:
+  service:
+    url: http://localhost:8082
+
+user:
+  service:
+    url: http://localhost:8083
+
+playlist:
+  service:
+    url: http://localhost:8084
+
+authentication:
+  service:
+    url: http://localhost:8085/authentication-service
+

@@ -2,9 +2,11 @@ package com.minispotify.gateway.controllers;
 
 import com.minispotify.gateway.requests.AuthenticationRequest;
 import com.minispotify.gateway.requests.RegisterRequest;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -31,7 +33,8 @@ public class GatewayController {
     private String authenticationServiceUrl;
 
     private final RestTemplate restTemplate;
-    private final RedisTemplate<String, String> redisTemplate;
+    @NonNull
+    private final StringRedisTemplate redisTemplate;
 
     // Artist Service Endpoints
     @GetMapping("/artists")
@@ -340,11 +343,15 @@ public class GatewayController {
     @PostMapping("/verify")
     public ResponseEntity<String> verifyToken(String token) {
         //search in redis first if there isnt a token unauthorized
+        //token is hashed with the same key and value
+
+        //remove bearer from token
+        token = token.substring(7);
 
         ValueOperations<String, String> ops = redisTemplate.opsForValue();
         String value = ops.get(token);
         if (Objects.isNull(value)) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         return new ResponseEntity<>(value, HttpStatus.OK);
