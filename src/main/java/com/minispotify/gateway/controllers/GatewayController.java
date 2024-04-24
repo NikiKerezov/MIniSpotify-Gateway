@@ -335,11 +335,6 @@ public class GatewayController {
         return restTemplate.postForEntity(authenticationServiceUrl + "/register", new HttpEntity<>(registrationDetails), String.class);
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<String> logout(@RequestBody String logoutDetails) {
-        return restTemplate.postForEntity(authenticationServiceUrl + "/logout", new HttpEntity<>(logoutDetails), String.class);
-    }
-
     @PostMapping("/verify")
     public ResponseEntity<String> verifyToken(String token) {
         //search in redis first if there isnt a token unauthorized
