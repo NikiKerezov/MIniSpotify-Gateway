@@ -325,12 +325,12 @@ public class GatewayController {
     }
 
     // Authentication Service Endpoints
-    @PostMapping("/login")
+    @PostMapping("/authentication-service/authenticate")
     public ResponseEntity<String> login(@RequestBody String loginDetails) {
         return restTemplate.postForEntity(authenticationServiceUrl + "/login", new HttpEntity<>(loginDetails), String.class);
     }
 
-    @PostMapping("/register")
+    @PostMapping("/authentication-service/register")
     public ResponseEntity<String> register(@RequestBody String registrationDetails) {
         return restTemplate.postForEntity(authenticationServiceUrl + "/register", new HttpEntity<>(registrationDetails), String.class);
     }
