@@ -1,5 +1,7 @@
 package com.minispotify.gateway.controllers;
 
+import com.minispotify.gateway.requests.AuthenticationRequest;
+import com.minispotify.gateway.requests.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -325,13 +327,13 @@ public class GatewayController {
     }
 
     // Authentication Service Endpoints
-    @PostMapping("/authentication-service/authenticate")
-    public ResponseEntity<String> login(@RequestBody String loginDetails) {
-        return restTemplate.postForEntity(authenticationServiceUrl + "/login", new HttpEntity<>(loginDetails), String.class);
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody AuthenticationRequest loginDetails) {
+        return restTemplate.postForEntity(authenticationServiceUrl + "/authenticate", new HttpEntity<>(loginDetails), String.class);
     }
 
-    @PostMapping("/authentication-service/register")
-    public ResponseEntity<String> register(@RequestBody String registrationDetails) {
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterRequest registrationDetails) {
         return restTemplate.postForEntity(authenticationServiceUrl + "/register", new HttpEntity<>(registrationDetails), String.class);
     }
 
